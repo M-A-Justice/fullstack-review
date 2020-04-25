@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
-import RepoList from './components/RepoList.jsx';
+import RepoCounter from './components/RepoCounter.jsx';
 import axios from 'axios';
+import RepoList from './components/RepoList.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -19,7 +20,9 @@ class App extends React.Component {
   get() {
     axios.get('/repos')
       .then((res) => {
-        console.log(res);
+        this.setState({
+          repos: res.data
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -31,24 +34,28 @@ class App extends React.Component {
   }
 
   search (term) {
-    // console.log(`${term} was searched`);
-    $.ajax({
-      contentType: 'application/json',
-      method: 'POST',
-      url: '/repos',
-      data: JSON.stringify({term: term}),
-      success: (data) => {
-        console.log(`${data} sent to server`);
-      }
-    });
+    // $.ajax({
+    //   contentType: 'application/json',
+    //   method: 'POST',
+    //   url: '/repos',
+    //   data: JSON.stringify({term: term}),
+    //   success: (data) => {
+    //     // console.log(data);
+    //     this.get();
+    //   }
+    // });
+    axios.post('/repos', {term: term})
+      .then(() => this.get())
+      .catch(err => console.log(err));
   }
 
   render () {
     const { repos } = this.state;
     return (<div>
       <h1>Github Fetcher</h1>
-      <RepoList repos={repos}/>
+      <RepoCounter repos={repos}/>
       <Search onSearch={this.search}/>
+      <RepoList repos={repos}/>
     </div>)
   }
 }

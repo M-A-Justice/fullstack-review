@@ -15,28 +15,23 @@ app.post('/repos', function (req, res) {
     if (err) {
       res.status(500).send(err);
     } else {
-      db.save(results, (err, results) => {
-        if (err) {
-          res.status(500).send(err);
-        } else {
-          res.send(results);
-        }
-      });
+      for (let repo of results) {
+        db.save(repo)
+      }
+      res.status(201).send(req.body.term);
     }
   });
-  res.send('repos');
+
 });
 
 app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
-  db.Repo.sort({ $forks: -1 }).limit(25).find((err, results) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(results);
-    }
-  })
+  db.Repo.find().sort({ forks: -1 }).limit(25)
+    .then((repos) => {
+      res.send(repos);
+    })
+    .catch(err => res.status(500).send(err));
 });
 
 let port = 1128;
