@@ -19,19 +19,29 @@ let save = (repo) => {
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
-
-  let repositories = new Repo({
-    id: repo.id,
-    name: repo.name,
-    html_url: repo.html_url,
-    description: repo.description,
-    forks: repo.forks,
-    login: repo.owner.login,
-    avatar_url: repo.owner.avatar_url
-  })
-  repositories.save((err, results) => {
+  Repo.findOne({id: repo.id}, (err, check) => {
     if (err) {
-      console.log(err);
+      console.log(err, 'error');
+    } else {
+      if (check) {
+        // update function
+        Repo.updateOne(check, repo);
+      } else {
+        let repositories = new Repo({
+          id: repo.id,
+          name: repo.name,
+          html_url: repo.html_url,
+          description: repo.description,
+          forks: repo.forks,
+          login: repo.owner.login,
+          avatar_url: repo.owner.avatar_url
+        })
+        repositories.save((err, results) => {
+          if (err) {
+            console.log(err);
+          }
+        });
+      }
     }
   });
 }

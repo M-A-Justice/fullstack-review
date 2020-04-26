@@ -1,12 +1,17 @@
+body {
+  background-color: antiquewhite;
+}
+
 .user-repo {
   display: flex;
   margin: 20px;
-  border: solid 3px black;
+  border: solid 3px darkslategrey;
   border-radius: 20px;
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 10px;
   padding-top: 10px;
+  background-color: aliceblue;
 }
 
 .text {
@@ -37,4 +42,27 @@
   height: 100px;
   width: 100px;
   border-radius: 30%;
+}
+
+.search {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.search-input {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+}
+
+.input {
+  margin-left: 20px;
+}
+
+.repo-counter {
+  margin-left: 20px;
 }

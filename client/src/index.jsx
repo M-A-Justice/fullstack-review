@@ -15,6 +15,7 @@ class App extends React.Component {
 
     this.search = this.search.bind(this);
     this.get = this.get.bind(this);
+    this.clear = this.get.bind(this);
   }
 
   get() {
@@ -31,6 +32,12 @@ class App extends React.Component {
 
   componentDidMount() {
     this.get();
+  }
+
+  clear() {
+    this.setState({
+      repos: []
+    });
   }
 
   search (term) {
